@@ -1,0 +1,609 @@
+<html>
+
+
+  
+
+  <!-- Add this in the <head> section -->
+
+<!-- Mirrored from moviesaro.netlify.app/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Jun 2025 04:41:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&amp;display=swap" rel="stylesheet" />
+
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  :root {
+    --primary-color: #00c6ff;
+    --secondary-color: #0072ff;
+    --bg-gradient: linear-gradient(135deg, #1a1c2c, #4b1248);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #fff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --max-width-desktop: 1200px;
+    --content-padding: clamp(20px, 5vw, 40px);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes floatAnimation {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes glowPulse {
+    0% { box-shadow: 0 0 5px rgba(0, 198, 255, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.4); }
+    100% { box-shadow: 0 0 5px rgba(0, 198, 255, 0.2); }
+  }
+
+  body {
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: var(--content-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .site-header {
+    width: 100%;
+    max-width: var(--max-width-desktop);
+    text-align: center;
+    margin-bottom: clamp(30px, 5vw, 40px);
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .site-header h1 {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+    text-shadow: 0 2px 10px rgba(0, 198, 255, 0.2);
+    letter-spacing: 2px;
+    padding: 0;
+  }
+
+  .site-header h1:hover {
+    transform: scale(1.02);
+  }
+
+  #searchBox {
+    padding: clamp(0.5rem, 2vw, 0.7rem) clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    width: 100%;
+    max-width: min(600px, 90vw);
+    margin: clamp(15px, 3vw, 20px) auto;
+    border-radius: 50px;
+    border: 2px solid rgba(0, 198, 255, 0.3);
+    outline: none;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+
+  #searchBox:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+    transform: scale(1.02);
+  }
+
+  #searchBox::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    width: 100%;
+  }
+
+  .spinner {
+    width: clamp(30px, 6vw, 40px);
+    height: clamp(30px, 6vw, 40px);
+    border: 3px solid rgba(0, 198, 255, 0.1);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  #results {
+    width: 100%;
+    max-width: var(--max-width-desktop);
+    margin: 0 auto;
+    display: grid;
+    gap: clamp(10px, 2vw, 20px);
+  }
+
+  .link-container {
+    background: var(--card-bg);
+    padding: clamp(0.8rem, 2vw, 1rem);
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .link-container:hover {
+    transform: translateY(-5px) scale(1.01);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 198, 255, 0.5);
+  }
+
+  .link-name {
+    font-weight: 600;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    text-decoration: none;
+    color: var(--primary-color);
+    display: block;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .welcome-section {
+    text-align: center;
+    width: 100%;
+    max-width: var(--max-width-desktop);
+    margin: clamp(30px, 6vw, 60px) auto;
+    padding: clamp(20px, 4vw, 30px);
+    background: var(--card-bg);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 1s ease-out;
+    border: 1px solid var(--card-border);
+  }
+
+  .welcome-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin-bottom: clamp(15px, 3vw, 20px);
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
+  .welcome-text {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: clamp(20px, 4vw, 25px);
+    padding: 0 clamp(10px, 3vw, 20px);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: clamp(15px, 3vw, 20px);
+    margin: clamp(20px, 4vw, 30px) 0;
+    padding: 0 clamp(10px, 2vw, 20px);
+  }
+
+  .feature-card {
+    background: var(--card-bg);
+    padding: clamp(15px, 3vw, 20px);
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    animation: glowPulse 3s infinite;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .feature-icon {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: clamp(10px, 2vw, 15px);
+    color: var(--primary-color);
+  }
+
+  .feature-title {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin-bottom: clamp(8px, 2vw, 10px);
+    color: var(--primary-color);
+  }
+
+  .feature-description {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    color: var(--text-secondary);
+  }
+
+  #popup {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    color: #333;
+    padding: clamp(20px, 4vw, 25px) clamp(30px, 6vw, 40px);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    display: none;
+    text-align: center;
+    z-index: 9999;
+    animation: popupFadeIn 0.4s ease-out;
+    max-width: min(90vw, 400px);
+  }
+
+  #popup strong {
+    display: block;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    margin-bottom: clamp(6px, 1.5vw, 8px);
+    color: #007BFF;
+  }
+
+  #popup span {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .details {
+    background: var(--card-bg);
+    padding: clamp(15px, 3vw, 20px);
+    border-radius: 12px;
+    margin: clamp(15px, 3vw, 20px) 0;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .details table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .details td, .details th {
+    padding: clamp(8px, 2vw, 12px);
+    border: 1px solid var(--card-border);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  @media (max-width: 480px) {
+    :root {
+      --content-padding: 15px;
+    }
+
+    .site-header {
+      margin-bottom: 15px;
+    }
+
+    .welcome-section {
+      margin: 30px auto;
+    }
+
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .details {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .site-header {
+      margin-bottom: 30px;
+    }
+
+    .welcome-section {
+      margin: 60px auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  .footer-links {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    animation: fadeInUp 1.5s ease-out;
+  }
+
+  .footer-links button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #00c6ff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .footer-links button:hover {
+    background: rgba(0, 198, 255, 0.2);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
+  }
+
+  #userCount {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    animation: fadeInUp 1.8s ease-out;
+  }
+
+  .modal-content {
+    background: rgba(28, 28, 28, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 198, 255, 0.2);
+    animation: fadeInUp 0.3s ease-out;
+  }
+
+  .site-footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+
+  .footer-links button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #00c6ff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .footer-links button:hover {
+    background: rgba(0, 198, 255, 0.2);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
+  }
+
+  .users-online {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  #userCount {
+    color: #00c6ff;
+    font-weight: bold;
+  }
+
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+</style>
+
+<body>
+  <div class="site-header">
+    <h1>MOVIESDE</h1>
+  </div>
+
+  <input type="text" id="searchBox" placeholder="Enter movie name..." autocomplete="off" />
+  <div class="spinner-container" id="spinner" style="display:none;">
+    <div class="spinner"></div>
+  </div>
+
+  <div id="results" style="width:100%; max-width:700px;"></div>
+
+  <div class="welcome-section">
+    <h2 class="welcome-title">Welcome to MOVIESDE</h2>
+    <p class="welcome-text">
+      Your ultimate destination for free movie content. We provide a seamless platform to discover, explore, and access a vast collection of movies. Our mission is to make entertainment accessible to everyone, anywhere, anytime.
+    </p>
+    
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎬</div>
+        <h3 class="feature-title">Free Access</h3>
+        <p class="feature-description">Enjoy unlimited access to a wide range of movies without any subscription fees.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3 class="feature-title">Easy Search</h3>
+        <p class="feature-description">Find your favorite movies quickly with our powerful search feature.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">Fast Downloads</h3>
+        <p class="feature-description">Quick and reliable download links for your entertainment needs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup" style="
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    color: #333;
+    padding: 25px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    font-size: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: none;
+    text-align: center;
+    z-index: 9999;
+    animation: popupFadeIn 0.4s ease-out;
+  ">
+    <strong style="display:block; font-size: 1.5rem; margin-bottom: 8px; color: #007BFF;">Thanks for downloading</strong>
+    <span style="font-size: 1rem;">Please wait...</span>
+  </div>
+
+  <script>
+    const searchBox = document.getElementById("searchBox");
+    const resultsDiv = document.getElementById("results");
+    const spinner = document.getElementById("spinner");
+
+    const allOrigins = "https://api.allorigins.win/raw?url=";
+    const baseURL = "https://www.tamilprint45.art/";
+    const searchPrefix = baseURL + "/search.php?source=";
+    const downloadPrefix = "https://tamilprint44.art/filedownload.php?fid=";
+
+    let debounce;
+
+    searchBox.addEventListener("input", () => {
+      clearTimeout(debounce);
+      const keyword = searchBox.value.trim();
+      if (!keyword) {
+        resultsDiv.innerHTML = "";
+        return;
+      }
+      debounce = setTimeout(() => {
+        fetchAndRender(searchPrefix + encodeURIComponent(keyword));
+      }, 350);
+    });
+
+    async function fetchAndRender(url, attempt = 1) {
+      spinner.style.display = "flex";
+      resultsDiv.innerHTML = "";
+
+      try {
+        const res = await fetch(allOrigins + encodeURIComponent(url));
+        const html = await res.text();
+
+        const fastChunk = html.split('<div class="tamilprintda"')[0];
+        const matches = [...fastChunk.matchAll(/<div class="M1">.*?<a[^>]+href="([^"]+)"[^>]*>(.*?)<\/a><br>(.*?)<\/td>/gs)];
+
+        for (const m of matches) {
+          const href = m[1];
+          const title = m[2].trim();
+          const desc = m[3].replace(/<[^>]+>/g, '').trim();
+
+          const item = document.createElement("div");
+          item.className = "link-container";
+          item.innerHTML = `
+            <a class="link-name">${title}</a>
+            <small style="display:block;text-align:center;">${desc}</small>
+          `;
+
+          const matchId = href.match(/(\d{2,7})\/?$/);
+          if (matchId) {
+            item.onclick = () => {
+              const popup = document.getElementById("popup");
+              popup.style.display = "block";
+              setTimeout(() => { popup.style.display = "none"; }, 10000);
+              setTimeout(() => { window.open(downloadPrefix + matchId[1], "_self"); }, 500);
+            };
+          } else {
+            item.onclick = () => {
+              fetchAndRender(baseURL + href);
+            };
+          }
+
+          resultsDiv.appendChild(item);
+        }
+
+        const titleMatch = html.match(/<h2 class="head">(.*?)<\/h2>/);
+        const tableMatch = html.match(/<div class="bf"[^>]*>(.*?)<\/table>/s);
+
+        if (titleMatch && tableMatch) {
+          const tableContent = tableMatch[1]
+            .replace(/<img[^>]+>/g, '')
+            .replace(/<tr>\s*<td><font color="red">Story<\/font>[\s\S]*?<\/tr>/, '')
+            .replace(/<\/div>/, '');
+
+          const detail = document.createElement("div");
+          detail.className = "details";
+          detail.innerHTML = `<strong>${titleMatch[1]}</strong><table>${tableContent}</table>`;
+          resultsDiv.insertBefore(detail, resultsDiv.firstChild);
+        }
+
+      } catch (e) {
+        if (attempt < 3) {
+          setTimeout(() => fetchAndRender(url, attempt + 1), 1000);
+        } else {
+          resultsDiv.innerHTML = "<p style='color: #ff8080;'>Failed to load data. Please try again later.</p>";
+          console.error("Fetch failed after 3 attempts:", e);
+        }
+      } finally {
+        spinner.style.display = "none";
+      }
+    }
+  </script>
+
+<!-- Mirrored from moviesaro.netlify.app/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 07 Jun 2025 04:41:25 GMT -->
+</body>
+</html>
