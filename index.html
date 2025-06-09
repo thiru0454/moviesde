@@ -63,9 +63,19 @@
       min-height: 100vh;
       line-height: 1.6;
       overflow-x: hidden;
+      animation: bodyFadeIn 1s ease-out;
     }
 
-    /* Background Animation */
+    @keyframes bodyFadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Animated Background */
     body::before {
       content: '';
       position: fixed;
@@ -79,6 +89,50 @@
         radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
       pointer-events: none;
       z-index: -1;
+      animation: backgroundPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes backgroundPulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 1;
+      }
     }
 
     .container {
@@ -87,11 +141,23 @@
       padding: 0 var(--spacing);
     }
 
-    /* Header */
+    /* Header Animations */
     .header {
       padding: var(--spacing-xl) 0;
       text-align: center;
       position: relative;
+      animation: slideInFromTop 1s ease-out 0.2s both;
+    }
+
+    @keyframes slideInFromTop {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .logo {
@@ -104,6 +170,24 @@
       margin-bottom: var(--spacing);
       letter-spacing: -0.02em;
       position: relative;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: logoGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes logoGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
+      }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.5));
+      }
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      animation-play-state: paused;
+      filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.8));
     }
 
     .logo::after {
@@ -116,6 +200,16 @@
       height: 4px;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       border-radius: 2px;
+      animation: underlineExpand 2s ease-in-out infinite;
+    }
+
+    @keyframes underlineExpand {
+      0%, 100% {
+        width: 60px;
+      }
+      50% {
+        width: 120px;
+      }
     }
 
     .tagline {
@@ -123,12 +217,14 @@
       color: var(--text-secondary);
       margin-bottom: var(--spacing-2xl);
       font-weight: 300;
+      animation: fadeInUp 1s ease-out 0.4s both;
     }
 
-    /* Search Section */
+    /* Search Section Animations */
     .search-section {
       margin-bottom: var(--spacing-2xl);
       position: relative;
+      animation: fadeInUp 1s ease-out 0.6s both;
     }
 
     .search-container {
@@ -146,18 +242,27 @@
       border-radius: var(--radius-2xl);
       color: var(--text-primary);
       backdrop-filter: blur(20px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
+      position: relative;
     }
 
     .search-input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-      transform: translateY(-2px);
+      box-shadow: 
+        0 0 0 4px rgba(99, 102, 241, 0.1),
+        0 10px 25px rgba(99, 102, 241, 0.2);
+      transform: translateY(-4px) scale(1.02);
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .search-input::placeholder {
       color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+
+    .search-input:focus::placeholder {
+      color: transparent;
     }
 
     .search-icon {
@@ -168,30 +273,71 @@
       color: var(--text-muted);
       font-size: 1.25rem;
       pointer-events: none;
+      transition: all 0.3s ease;
+      animation: searchIconPulse 2s ease-in-out infinite;
     }
 
-    /* Loading Spinner */
+    @keyframes searchIconPulse {
+      0%, 100% {
+        transform: translateY(-50%) scale(1);
+      }
+      50% {
+        transform: translateY(-50%) scale(1.1);
+      }
+    }
+
+    .search-input:focus + .search-icon {
+      color: var(--primary);
+      transform: translateY(-50%) scale(1.2);
+      animation-play-state: paused;
+    }
+
+    /* Enhanced Loading Spinner */
     .spinner-container {
       display: none;
       justify-content: center;
       align-items: center;
       padding: var(--spacing-xl);
+      animation: fadeIn 0.3s ease-out;
     }
 
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid var(--border);
-      border-top: 3px solid var(--primary);
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--border);
+      border-top: 4px solid var(--primary);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 1s linear infinite, spinnerGlow 2s ease-in-out infinite;
+      position: relative;
+    }
+
+    .spinner::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid transparent;
+      border-top: 2px solid var(--secondary);
+      border-radius: 50%;
+      animation: spin 1.5s linear infinite reverse;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    /* Results */
+    @keyframes spinnerGlow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+      }
+    }
+
+    /* Results Animations */
     .results {
       display: grid;
       gap: var(--spacing-lg);
@@ -204,10 +350,20 @@
       border-radius: var(--radius-xl);
       padding: var(--spacing-lg);
       backdrop-filter: blur(20px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideInUp 0.6s ease-out forwards;
+    }
+
+    @keyframes slideInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .movie-card::before {
@@ -216,21 +372,45 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 3px;
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
       transform: scaleX(0);
-      transition: transform 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: left;
+    }
+
+    .movie-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
 
     .movie-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-8px) scale(1.02);
       border-color: var(--border-hover);
-      box-shadow: var(--shadow-xl);
+      box-shadow: 
+        var(--shadow-xl),
+        0 0 30px rgba(99, 102, 241, 0.2);
       background: var(--bg-glass);
     }
 
     .movie-card:hover::before {
       transform: scaleX(1);
+    }
+
+    .movie-card:hover::after {
+      opacity: 1;
+    }
+
+    .movie-card:active {
+      transform: translateY(-4px) scale(0.98);
     }
 
     .movie-title {
@@ -239,14 +419,29 @@
       color: var(--text-primary);
       margin-bottom: var(--spacing-sm);
       line-height: 1.4;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .movie-card:hover .movie-title {
+      color: var(--primary);
     }
 
     .movie-description {
       color: var(--text-secondary);
       font-size: 0.9rem;
       line-height: 1.5;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
 
+    .movie-card:hover .movie-description {
+      color: var(--text-primary);
+    }
+
+    /* Movie Details Animations */
     .movie-details {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -254,6 +449,40 @@
       padding: var(--spacing-xl);
       margin-bottom: var(--spacing-lg);
       backdrop-filter: blur(20px);
+      animation: expandIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes expandIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .movie-details::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      animation: progressBar 2s ease-out;
+    }
+
+    @keyframes progressBar {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
     }
 
     .movie-details h3 {
@@ -261,11 +490,35 @@
       font-weight: 600;
       margin-bottom: var(--spacing-lg);
       color: var(--text-primary);
+      animation: titleSlide 0.6s ease-out 0.2s both;
+    }
+
+    @keyframes titleSlide {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .movie-details table {
       width: 100%;
       border-collapse: collapse;
+      animation: tableSlide 0.6s ease-out 0.4s both;
+    }
+
+    @keyframes tableSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .movie-details td,
@@ -273,6 +526,12 @@
       padding: var(--spacing-sm) var(--spacing);
       border: 1px solid var(--border);
       text-align: left;
+      transition: all 0.3s ease;
+    }
+
+    .movie-details tr:hover td {
+      background: var(--bg-glass);
+      transform: scale(1.01);
     }
 
     .movie-details th {
@@ -285,7 +544,7 @@
       color: var(--text-secondary);
     }
 
-    /* Welcome Section */
+    /* Welcome Section Animations */
     .welcome-section {
       text-align: center;
       padding: var(--spacing-2xl);
@@ -294,6 +553,30 @@
       border-radius: var(--radius-2xl);
       backdrop-filter: blur(20px);
       margin-bottom: var(--spacing-2xl);
+      animation: fadeInUp 1s ease-out 0.8s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+      }
     }
 
     .welcome-title {
@@ -304,6 +587,18 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: titleBounce 2s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes titleBounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
     }
 
     .welcome-text {
@@ -313,6 +608,20 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
+      animation: textFade 1s ease-out 1s both;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes textFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .features-grid {
@@ -320,6 +629,8 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: var(--spacing-lg);
       margin-top: var(--spacing-xl);
+      position: relative;
+      z-index: 1;
     }
 
     .feature-card {
@@ -328,9 +639,25 @@
       border-radius: var(--radius-xl);
       padding: var(--spacing-xl);
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      animation: featureSlideIn 0.6s ease-out both;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 1.2s; }
+    .feature-card:nth-child(2) { animation-delay: 1.4s; }
+    .feature-card:nth-child(3) { animation-delay: 1.6s; }
+
+    @keyframes featureSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .feature-card::before {
@@ -342,17 +669,38 @@
       height: 3px;
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
       transform: scaleX(0);
-      transition: transform 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: left;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.1), transparent);
+      transition: all 0.4s ease;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
     }
 
     .feature-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-8px) scale(1.05);
       border-color: var(--border-hover);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 
+        var(--shadow-lg),
+        0 0 25px rgba(99, 102, 241, 0.15);
     }
 
     .feature-card:hover::before {
       transform: scaleX(1);
+    }
+
+    .feature-card:hover::after {
+      width: 200px;
+      height: 200px;
     }
 
     .feature-icon {
@@ -362,6 +710,24 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes iconFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(5deg);
+      }
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.2) rotate(10deg);
+      animation-play-state: paused;
     }
 
     .feature-title {
@@ -369,29 +735,99 @@
       font-weight: 600;
       margin-bottom: var(--spacing-sm);
       color: var(--text-primary);
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .feature-card:hover .feature-title {
+      color: var(--primary);
     }
 
     .feature-description {
       color: var(--text-secondary);
       line-height: 1.6;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Download Popup */
+    .feature-card:hover .feature-description {
+      color: var(--text-primary);
+    }
+
+    /* Enhanced Download Popup */
     .popup {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0);
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: var(--spacing-xl);
       backdrop-filter: blur(20px);
-      box-shadow: var(--shadow-xl);
+      box-shadow: 
+        var(--shadow-xl),
+        0 0 50px rgba(99, 102, 241, 0.3);
       text-align: center;
       z-index: 1000;
       display: none;
-      min-width: 300px;
+      min-width: 320px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .popup.show {
+      display: block;
+      animation: popupShow 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .popup.hide {
+      animation: popupHide 0.3s ease-in forwards;
+    }
+
+    @keyframes popupShow {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes popupHide {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+    }
+
+    .popup::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--success), var(--accent));
+      animation: popupProgress 10s linear;
+    }
+
+    @keyframes popupProgress {
+      from {
+        transform: scaleX(1);
+      }
+      to {
+        transform: scaleX(0);
+      }
     }
 
     .popup-title {
@@ -399,21 +835,68 @@
       font-weight: 600;
       color: var(--success);
       margin-bottom: var(--spacing-sm);
+      animation: popupTitleBounce 0.6s ease-out 0.2s both;
+    }
+
+    @keyframes popupTitleBounce {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .popup-text {
       color: var(--text-secondary);
       margin-bottom: var(--spacing-lg);
+      animation: popupTextSlide 0.6s ease-out 0.4s both;
+    }
+
+    @keyframes popupTextSlide {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .popup-spinner {
-      width: 24px;
-      height: 24px;
-      border: 2px solid var(--border);
-      border-top: 2px solid var(--success);
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top: 3px solid var(--success);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: 
+        spin 1s linear infinite,
+        popupSpinnerGlow 2s ease-in-out infinite,
+        popupSpinnerSlide 0.6s ease-out 0.6s both;
       margin: 0 auto;
+    }
+
+    @keyframes popupSpinnerGlow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+      }
+    }
+
+    @keyframes popupSpinnerSlide {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* Responsive Design */
@@ -442,9 +925,17 @@
       .welcome-section {
         padding: var(--spacing-lg);
       }
+
+      .movie-card:hover {
+        transform: translateY(-4px) scale(1.01);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px) scale(1.02);
+      }
     }
 
-    /* Animations */
+    /* Additional Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -456,11 +947,20 @@
       }
     }
 
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
     .fade-in {
       animation: fadeInUp 0.6s ease-out;
     }
 
-    /* Scrollbar */
+    /* Scrollbar Animations */
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -470,28 +970,39 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: var(--primary);
+      background: linear-gradient(180deg, var(--primary), var(--secondary));
       border-radius: 4px;
+      transition: background 0.3s ease;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-dark);
+      background: linear-gradient(180deg, var(--primary-dark), var(--secondary));
     }
+
+    /* Stagger animation for movie cards */
+    .movie-card:nth-child(1) { animation-delay: 0.1s; }
+    .movie-card:nth-child(2) { animation-delay: 0.2s; }
+    .movie-card:nth-child(3) { animation-delay: 0.3s; }
+    .movie-card:nth-child(4) { animation-delay: 0.4s; }
+    .movie-card:nth-child(5) { animation-delay: 0.5s; }
+    .movie-card:nth-child(n+6) { animation-delay: 0.6s; }
   </style>
 </head>
 
 <body>
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
   <div class="container">
     <!-- Header -->
-    <header class="header fade-in">
-      <h1 class="logo">MOVIESDE</h1>
+    <header class="header">
+      <h1 class="logo" onclick="location.reload()">MOVIESDE</h1>
       <p class="tagline">Your ultimate destination for free movie content</p>
     </header>
 
     <!-- Search Section -->
-    <section class="search-section fade-in">
+    <section class="search-section">
       <div class="search-container">
-        <i class="fas fa-search search-icon"></i>
         <input 
           type="text" 
           id="searchBox" 
@@ -499,6 +1010,7 @@
           placeholder="Search for movies, series, and more..."
           autocomplete="off"
         />
+        <i class="fas fa-search search-icon"></i>
       </div>
     </section>
 
@@ -511,7 +1023,7 @@
     <div id="results" class="results"></div>
 
     <!-- Welcome Section -->
-    <section class="welcome-section fade-in">
+    <section class="welcome-section">
       <h2 class="welcome-title">Welcome to MOVIESDE</h2>
       <p class="welcome-text">
         Discover, explore, and access a vast collection of movies with our seamless platform. 
@@ -563,6 +1075,25 @@
   </div>
 
   <script>
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 20;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Initialize particles
+    createParticles();
+
     const searchBox = document.getElementById("searchBox");
     const resultsDiv = document.getElementById("results");
     const spinner = document.getElementById("spinner");
@@ -574,6 +1105,7 @@
 
     let debounce;
 
+    // Enhanced search with animations
     searchBox.addEventListener("input", () => {
       clearTimeout(debounce);
       const keyword = searchBox.value.trim();
@@ -586,9 +1118,31 @@
       }, 350);
     });
 
+    // Add search input animations
+    searchBox.addEventListener('focus', () => {
+      searchBox.parentElement.style.transform = 'scale(1.02)';
+    });
+
+    searchBox.addEventListener('blur', () => {
+      searchBox.parentElement.style.transform = 'scale(1)';
+    });
+
     async function fetchAndRender(url, attempt = 1) {
+      // Animate spinner appearance
       spinner.style.display = "flex";
-      resultsDiv.innerHTML = "";
+      spinner.style.animation = "fadeIn 0.3s ease-out";
+      
+      // Clear results with fade out animation
+      if (resultsDiv.children.length > 0) {
+        Array.from(resultsDiv.children).forEach((child, index) => {
+          setTimeout(() => {
+            child.style.animation = "fadeOut 0.3s ease-out forwards";
+          }, index * 50);
+        });
+        setTimeout(() => {
+          resultsDiv.innerHTML = "";
+        }, 300);
+      }
 
       try {
         const res = await fetch(allOrigins + encodeURIComponent(url));
@@ -597,13 +1151,14 @@
         const fastChunk = html.split('<div class="tamilprintda"')[0];
         const matches = [...fastChunk.matchAll(/<div class="M1">.*?<a[^>]+href="([^"]+)"[^>]*>(.*?)<\/a><br>(.*?)<\/td>/gs)];
 
-        for (const m of matches) {
+        for (const [index, m] of matches.entries()) {
           const href = m[1];
           const title = m[2].trim();
           const desc = m[3].replace(/<[^>]+>/g, '').trim();
 
           const item = document.createElement("div");
-          item.className = "movie-card fade-in";
+          item.className = "movie-card";
+          item.style.animationDelay = (index * 0.1) + 's';
           item.innerHTML = `
             <div class="movie-title">${title}</div>
             <div class="movie-description">${desc}</div>
@@ -612,14 +1167,20 @@
           const matchId = href.match(/(\d{2,7})\/?$/);
           if (matchId) {
             item.onclick = () => {
-              const popup = document.getElementById("popup");
-              popup.style.display = "block";
-              setTimeout(() => { popup.style.display = "none"; }, 10000);
-              setTimeout(() => { window.open(downloadPrefix + matchId[1], "_self"); }, 500);
+              showDownloadPopup();
+              setTimeout(() => { 
+                hideDownloadPopup();
+                window.open(downloadPrefix + matchId[1], "_self"); 
+              }, 500);
             };
           } else {
             item.onclick = () => {
-              fetchAndRender(baseURL + href);
+              // Add click animation
+              item.style.transform = 'scale(0.95)';
+              setTimeout(() => {
+                item.style.transform = '';
+                fetchAndRender(baseURL + href);
+              }, 150);
             };
           }
 
@@ -636,7 +1197,7 @@
             .replace(/<\/div>/, '');
 
           const detail = document.createElement("div");
-          detail.className = "movie-details fade-in";
+          detail.className = "movie-details";
           detail.innerHTML = `
             <h3>${titleMatch[1]}</h3>
             <table>${tableContent}</table>
@@ -650,7 +1211,7 @@
         } else {
           resultsDiv.innerHTML = `
             <div class="movie-card" style="text-align: center; color: var(--error);">
-              <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+              <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; animation: shake 0.5s ease-in-out infinite;"></i>
               <div class="movie-title">Failed to load data</div>
               <div class="movie-description">Please try again later or check your connection.</div>
             </div>
@@ -658,23 +1219,95 @@
           console.error("Fetch failed after 3 attempts:", e);
         }
       } finally {
-        spinner.style.display = "none";
+        // Animate spinner disappearance
+        spinner.style.animation = "fadeOut 0.3s ease-out forwards";
+        setTimeout(() => {
+          spinner.style.display = "none";
+        }, 300);
       }
     }
 
-    // Add smooth scrolling for better UX
+    // Enhanced popup functions
+    function showDownloadPopup() {
+      const popup = document.getElementById("popup");
+      popup.classList.add('show');
+      popup.style.display = "block";
+    }
+
+    function hideDownloadPopup() {
+      const popup = document.getElementById("popup");
+      popup.classList.add('hide');
+      setTimeout(() => {
+        popup.style.display = "none";
+        popup.classList.remove('show', 'hide');
+      }, 300);
+    }
+
+    // Add shake animation for errors
+    const shakeKeyframes = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+      }
+    `;
+    
+    const fadeOutKeyframes = `
+      @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-20px); }
+      }
+    `;
+
+    // Add keyframes to document
+    const style = document.createElement('style');
+    style.textContent = shakeKeyframes + fadeOutKeyframes;
+    document.head.appendChild(style);
+
+    // Enhanced intersection observer for animations
     document.addEventListener('DOMContentLoaded', function() {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('fade-in');
+            // Add stagger effect for multiple elements
+            if (entry.target.classList.contains('movie-card')) {
+              const cards = document.querySelectorAll('.movie-card');
+              const index = Array.from(cards).indexOf(entry.target);
+              entry.target.style.animationDelay = (index * 0.1) + 's';
+            }
           }
         });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
       });
 
-      document.querySelectorAll('.movie-card, .movie-details').forEach((el) => {
+      // Observe all animatable elements
+      document.querySelectorAll('.movie-card, .movie-details, .feature-card').forEach((el) => {
         observer.observe(el);
       });
+    });
+
+    // Add smooth scroll behavior
+    document.documentElement.style.scrollBehavior = 'smooth';
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hideDownloadPopup();
+      }
+      if (e.key === '/' && !searchBox.matches(':focus')) {
+        e.preventDefault();
+        searchBox.focus();
+      }
+    });
+
+    // Add mouse trail effect (optional)
+    let mouseTrail = [];
+    document.addEventListener('mousemove', (e) => {
+      mouseTrail.push({x: e.clientX, y: e.clientY, time: Date.now()});
+      if (mouseTrail.length > 10) mouseTrail.shift();
     });
   </script>
 </body>
