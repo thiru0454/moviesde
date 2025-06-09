@@ -1,0 +1,17 @@
+{
+  "name": "moviesde",
+  "version": "1.0.0",
+  "description": "Your ultimate destination for free movie content",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "mkdir -p dist && cp -r * dist/",
+    "preview": "npx serve dist"
+  },
+  "keywords": ["movies", "entertainment", "search"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
