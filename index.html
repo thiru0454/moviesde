@@ -231,14 +231,6 @@
       position: relative;
       max-width: 600px;
       margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing);
-    }
-
-    .search-input-wrapper {
-      position: relative;
-      flex: 1;
     }
 
     .search-input {
@@ -297,157 +289,6 @@
     .search-input:focus + .search-icon {
       color: var(--primary);
       transform: translateY(-50%) scale(1.2);
-      animation-play-state: paused;
-    }
-
-    /* Enhanced Back Button Styles */
-    .back-button {
-      background: var(--bg-glass);
-      border: 2px solid var(--border);
-      border-radius: var(--radius-2xl);
-      padding: var(--spacing) var(--spacing-lg);
-      color: var(--text-primary);
-      cursor: pointer;
-      backdrop-filter: blur(20px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      display: none;
-      align-items: center;
-      gap: var(--spacing-sm);
-      font-size: 1rem;
-      font-weight: 500;
-      min-width: 120px;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .back-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .back-button:hover {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, 0.1);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 
-        0 0 0 2px rgba(99, 102, 241, 0.1),
-        0 8px 20px rgba(99, 102, 241, 0.2);
-    }
-
-    .back-button:hover::before {
-      left: 100%;
-    }
-
-    .back-button:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    .back-button.show {
-      display: flex;
-      animation: slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .back-button.hide {
-      animation: slideOutToRight 0.3s ease-in forwards;
-    }
-
-    @keyframes slideInFromRight {
-      from {
-        opacity: 0;
-        transform: translateX(30px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
-    }
-
-    @keyframes slideOutToRight {
-      from {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
-      to {
-        opacity: 0;
-        transform: translateX(30px) scale(0.9);
-      }
-    }
-
-    /* Custom Back Arrow Icon */
-    .back-icon {
-      width: 20px;
-      height: 20px;
-      position: relative;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .back-icon::before,
-    .back-icon::after {
-      content: '';
-      position: absolute;
-      background: currentColor;
-      border-radius: 2px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Arrow shaft */
-    .back-icon::before {
-      width: 14px;
-      height: 2px;
-      top: 50%;
-      left: 3px;
-      transform: translateY(-50%);
-    }
-
-    /* Arrow head */
-    .back-icon::after {
-      width: 8px;
-      height: 2px;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%) rotate(-45deg);
-      transform-origin: left center;
-      box-shadow: 0 6px 0 currentColor;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .back-button:hover .back-icon {
-      transform: translateX(-3px);
-    }
-
-    .back-button:hover .back-icon::before {
-      width: 16px;
-      background: var(--primary);
-    }
-
-    .back-button:hover .back-icon::after {
-      background: var(--primary);
-      box-shadow: 0 6px 0 var(--primary);
-      transform: translateY(-50%) rotate(-45deg) scale(1.1);
-    }
-
-    /* Pulse animation for the icon */
-    @keyframes iconPulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-    }
-
-    .back-button.show .back-icon {
-      animation: iconPulse 2s ease-in-out infinite;
-    }
-
-    .back-button:hover .back-icon {
       animation-play-state: paused;
     }
 
@@ -1068,22 +909,6 @@
         padding: var(--spacing-lg) 0;
       }
 
-      .search-container {
-        flex-direction: column;
-        gap: var(--spacing);
-      }
-
-      .search-input-wrapper {
-        order: 1;
-      }
-
-      .back-button {
-        order: 2;
-        align-self: flex-start;
-        min-width: auto;
-        width: 100%;
-      }
-
       .search-input {
         padding: var(--spacing) var(--spacing-lg) var(--spacing) 50px;
         font-size: 1rem;
@@ -1171,27 +996,21 @@
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <h1 class="logo" onclick="goHome()">MOVIESDE</h1>
+      <h1 class="logo" onclick="location.reload()">MOVIESDE</h1>
       <p class="tagline">Your ultimate destination for free movie content</p>
     </header>
 
     <!-- Search Section -->
     <section class="search-section">
       <div class="search-container">
-        <div class="search-input-wrapper">
-          <input 
-            type="text" 
-            id="searchBox" 
-            class="search-input"
-            placeholder="Search for movies, series, and more..."
-            autocomplete="off"
-          />
-          <i class="fas fa-search search-icon"></i>
-        </div>
-        <button class="back-button" id="backButton" onclick="goHome()">
-          <div class="back-icon"></div>
-          <span>Back</span>
-        </button>
+        <input 
+          type="text" 
+          id="searchBox" 
+          class="search-input"
+          placeholder="Search for movies, series, and more..."
+          autocomplete="off"
+        />
+        <i class="fas fa-search search-icon"></i>
       </div>
     </section>
 
@@ -1204,7 +1023,7 @@
     <div id="results" class="results"></div>
 
     <!-- Welcome Section -->
-    <section class="welcome-section" id="welcomeSection">
+    <section class="welcome-section">
       <h2 class="welcome-title">Welcome to MOVIESDE</h2>
       <p class="welcome-text">
         Discover, explore, and access a vast collection of movies with our seamless platform. 
@@ -1278,8 +1097,6 @@
     const searchBox = document.getElementById("searchBox");
     const resultsDiv = document.getElementById("results");
     const spinner = document.getElementById("spinner");
-    const backButton = document.getElementById("backButton");
-    const welcomeSection = document.getElementById("welcomeSection");
 
     const allOrigins = "https://api.allorigins.win/raw?url=";
     const baseURL = "https://www.tamilprint45.art/";
@@ -1287,26 +1104,16 @@
     const downloadPrefix = "https://tamilprint44.art/filedownload.php?fid=";
 
     let debounce;
-    let isSearching = false;
 
-    // Enhanced search with animations and back button logic
+    // Enhanced search with animations
     searchBox.addEventListener("input", () => {
       clearTimeout(debounce);
       const keyword = searchBox.value.trim();
-      
       if (!keyword) {
-        if (isSearching) {
-          goHome();
-        }
+        resultsDiv.innerHTML = "";
         return;
       }
-      
       debounce = setTimeout(() => {
-        if (!isSearching) {
-          showBackButton();
-          hideWelcomeSection();
-          isSearching = true;
-        }
         fetchAndRender(searchPrefix + encodeURIComponent(keyword));
       }, 350);
     });
@@ -1319,60 +1126,6 @@
     searchBox.addEventListener('blur', () => {
       searchBox.parentElement.style.transform = 'scale(1)';
     });
-
-    // Back button and home functionality
-    function showBackButton() {
-      backButton.classList.add('show');
-      backButton.classList.remove('hide');
-    }
-
-    function hideBackButton() {
-      backButton.classList.add('hide');
-      backButton.classList.remove('show');
-      setTimeout(() => {
-        backButton.style.display = 'none';
-      }, 300);
-    }
-
-    function hideWelcomeSection() {
-      welcomeSection.style.animation = 'fadeOut 0.3s ease-out forwards';
-      setTimeout(() => {
-        welcomeSection.style.display = 'none';
-      }, 300);
-    }
-
-    function showWelcomeSection() {
-      welcomeSection.style.display = 'block';
-      welcomeSection.style.animation = 'fadeInUp 0.5s ease-out forwards';
-    }
-
-    function goHome() {
-      // Clear search
-      searchBox.value = '';
-      
-      // Hide back button
-      hideBackButton();
-      
-      // Clear results with animation
-      if (resultsDiv.children.length > 0) {
-        Array.from(resultsDiv.children).forEach((child, index) => {
-          setTimeout(() => {
-            child.style.animation = "fadeOut 0.3s ease-out forwards";
-          }, index * 50);
-        });
-        setTimeout(() => {
-          resultsDiv.innerHTML = "";
-        }, 300);
-      }
-      
-      // Show welcome section
-      setTimeout(() => {
-        showWelcomeSection();
-      }, 200);
-      
-      // Reset search state
-      isSearching = false;
-    }
 
     async function fetchAndRender(url, attempt = 1) {
       // Animate spinner appearance
@@ -1542,11 +1295,7 @@
     // Add keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (isSearching) {
-          goHome();
-        } else {
-          hideDownloadPopup();
-        }
+        hideDownloadPopup();
       }
       if (e.key === '/' && !searchBox.matches(':focus')) {
         e.preventDefault();
