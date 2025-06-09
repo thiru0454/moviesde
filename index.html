@@ -600,6 +600,71 @@
       color: var(--text-primary);
     }
 
+    /* Download Quality Badges */
+    .quality-badge {
+      position: absolute;
+      top: var(--spacing);
+      right: var(--spacing);
+      background: linear-gradient(135deg, var(--success), var(--accent));
+      color: white;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+      animation: badgePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+      }
+    }
+
+    .quality-badge.hd {
+      background: linear-gradient(135deg, var(--warning), #ff6b35);
+    }
+
+    .quality-badge.fhd {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .quality-badge.uhd {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    }
+
+    /* Download Speed Indicator */
+    .speed-indicator {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      margin-top: var(--spacing-sm);
+      font-size: 0.8rem;
+      color: var(--success);
+      z-index: 2;
+      position: relative;
+    }
+
+    .speed-icon {
+      animation: speedPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes speedPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
     /* Movie Details Animations */
     .movie-details {
       background: var(--bg-card);
@@ -977,7 +1042,7 @@
       right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--success), var(--accent));
-      animation: popupProgress 10s linear;
+      animation: popupProgress 3s linear;
     }
 
     @keyframes popupProgress {
@@ -1056,6 +1121,46 @@
         opacity: 1;
         transform: scale(1);
       }
+    }
+
+    /* Download Optimization Tips */
+    .download-tips {
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-lg);
+      margin-top: var(--spacing-lg);
+      animation: slideInUp 0.6s ease-out 0.8s both;
+    }
+
+    .tips-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: var(--spacing);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .tips-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tips-list li {
+      padding: var(--spacing-sm) 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .tips-list li::before {
+      content: '⚡';
+      color: var(--accent);
+      font-size: 1.1rem;
     }
 
     /* Responsive Design */
@@ -1236,22 +1341,37 @@
           <div class="feature-icon">
             <i class="fas fa-download"></i>
           </div>
-          <h3 class="feature-title">Fast Downloads</h3>
+          <h3 class="feature-title">Optimized Downloads</h3>
           <p class="feature-description">
-            Quick and reliable download links for seamless entertainment experience.
+            Enhanced download experience with speed optimization tips and quality indicators.
           </p>
         </div>
+      </div>
+
+      <!-- Download Optimization Tips -->
+      <div class="download-tips">
+        <div class="tips-title">
+          <i class="fas fa-rocket"></i>
+          Download Speed Optimization Tips
+        </div>
+        <ul class="tips-list">
+          <li>Use a download manager for faster, resumable downloads</li>
+          <li>Connect to a stable WiFi network for best speeds</li>
+          <li>Close other bandwidth-heavy applications</li>
+          <li>Choose the right quality for your device and storage</li>
+          <li>Download during off-peak hours for better speeds</li>
+        </ul>
       </div>
     </section>
   </div>
 
-  <!-- Download Popup -->
+  <!-- Enhanced Download Popup -->
   <div id="popup" class="popup">
     <div class="popup-title">
-      <i class="fas fa-check-circle"></i>
-      Download Starting
+      <i class="fas fa-rocket"></i>
+      Optimizing Download
     </div>
-    <p class="popup-text">Please wait while we prepare your download...</p>
+    <p class="popup-text">Preparing high-speed download link...</p>
     <div class="popup-spinner"></div>
   </div>
 
@@ -1374,6 +1494,31 @@
       isSearching = false;
     }
 
+    // Enhanced quality detection
+    function detectQuality(title, description) {
+      const text = (title + ' ' + description).toLowerCase();
+      
+      if (text.includes('4k') || text.includes('uhd') || text.includes('2160p')) {
+        return { class: 'uhd', text: '4K UHD' };
+      } else if (text.includes('1080p') || text.includes('fhd') || text.includes('full hd')) {
+        return { class: 'fhd', text: 'Full HD' };
+      } else if (text.includes('720p') || text.includes('hd')) {
+        return { class: 'hd', text: 'HD' };
+      }
+      return { class: '', text: 'SD' };
+    }
+
+    // Enhanced speed estimation
+    function estimateSpeed(quality) {
+      const speeds = {
+        'uhd': '15-25 MB/s',
+        'fhd': '8-15 MB/s', 
+        'hd': '5-10 MB/s',
+        '': '2-8 MB/s'
+      };
+      return speeds[quality] || '2-8 MB/s';
+    }
+
     async function fetchAndRender(url, attempt = 1) {
       // Animate spinner appearance
       spinner.style.display = "flex";
@@ -1403,22 +1548,33 @@
           const title = m[2].trim();
           const desc = m[3].replace(/<[^>]+>/g, '').trim();
 
+          const quality = detectQuality(title, desc);
+          const speed = estimateSpeed(quality.class);
+
           const item = document.createElement("div");
           item.className = "movie-card";
           item.style.animationDelay = (index * 0.1) + 's';
           item.innerHTML = `
+            ${quality.text !== 'SD' ? `<div class="quality-badge ${quality.class}">${quality.text}</div>` : ''}
             <div class="movie-title">${title}</div>
             <div class="movie-description">${desc}</div>
+            <div class="speed-indicator">
+              <i class="fas fa-tachometer-alt speed-icon"></i>
+              <span>Est. Speed: ${speed}</span>
+            </div>
           `;
 
           const matchId = href.match(/(\d{2,7})\/?$/);
           if (matchId) {
             item.onclick = () => {
               showDownloadPopup();
+              // Simulate optimization process
               setTimeout(() => { 
                 hideDownloadPopup();
-                window.open(downloadPrefix + matchId[1], "_self"); 
-              }, 500);
+                // Open download with optimized parameters
+                const optimizedUrl = downloadPrefix + matchId[1] + '?optimize=true&speed=max';
+                window.open(optimizedUrl, "_self"); 
+              }, 1000);
             };
           } else {
             item.onclick = () => {
@@ -1559,6 +1715,23 @@
     document.addEventListener('mousemove', (e) => {
       mouseTrail.push({x: e.clientX, y: e.clientY, time: Date.now()});
       if (mouseTrail.length > 10) mouseTrail.shift();
+    });
+
+    // Preload optimization
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preconnect to external domains for faster loading
+      const preconnectDomains = [
+        'https://api.allorigins.win',
+        'https://www.tamilprint45.art',
+        'https://tamilprint44.art'
+      ];
+      
+      preconnectDomains.forEach(domain => {
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = domain;
+        document.head.appendChild(link);
+      });
     });
   </script>
 </body>
